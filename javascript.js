@@ -14,10 +14,13 @@ function divide(a,b){
     return a/b
 }
 
-let num1
-let num2
+let num1 = null;
+let num2 = null;
 let operation
 let displayContent=""
+let firstNumberFound = false
+let hasDecimal = false
+
 function operate(a, operator, b){
     const num1 = Number(a)
     const num2 = Number(b)
@@ -40,11 +43,24 @@ const digits = document.querySelectorAll(".number")
 const operands = document.querySelectorAll(".operator")
 const clear = document.querySelector("#clear-button")
 const equal = document.querySelector("#equal-sign")
+const decimal = document.querySelector("#decimal")
+
+
 for (let i = 0; i < digits.length; i++){
         digits[i].addEventListener("click", () => {
+        if (displayContent.length >= 10){
+            displayContent = displayContent
+        }
+        else if (firstNumberFound = false){
             displayContent += digits[i].value
             display.textContent = displayContent
-            
+        }
+        else {
+            displayContent += digits[i].value
+            display.textContent = displayContent
+        }
+        console.log(num1)
+        console.log(num2)
         })
     }
 
@@ -52,39 +68,28 @@ for (let i = 0; i < digits.length; i++){
 
 for (let j = 0; j < operands.length; j++){
     operands[j].addEventListener("click", () => {
-            num2 = num1;
-            num1 = displayContent;
-        if (num1 != null){
-            displayContent = ''
-            operation = operands[j].value
-            if (num1 != null && num2 != null){
-                displayContent = operate(num1, operation, num2)
-                display.textContent = displayContent
-                
-            } 
-        }
+        if (num1 != null)
+        firstNumberFound = true
+        num1 = displayContent
+        displayContent = ''
+        display.textContent = displayContent
+        operation = operands[j].value;
     })
 }
 
 equal.addEventListener("click", () => {
-    num2 = num1;
-        num1 = displayContent;
-        displayContent = ''
-        if (num1 != null && num2 != null){
-            displayContent = operate(num1, operation, num2)
-            display.textContent = displayContent
-            num1 = null;
-            num2 = null;
-        } 
-    })
-
-clear.addEventListener("click", () => {
-    display.textContent = null;
-    displayContent = '';
-    num1 = null;
-    num2 = null;
+    if (num1 != null){
+        num2 = displayContent
+    }
+    if (num1 != null && num2 != null){
+        displayContent = operate(num1, operation, num2)
+        display.textContent = displayContent
+    }
 })
 
 
+clear.addEventListener("click", () => {
+    displayContent = ''
+    display.textContent = displayContent
+})
 
-    
